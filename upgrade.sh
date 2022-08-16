@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 VERSION_FILE='./version.json'
 VERSION_KEY='version'

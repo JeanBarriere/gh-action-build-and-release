@@ -45,3 +45,11 @@ jobs:
         git add version.json
         git commit -m "chore: release"
         git push origin main
+
+  notify-dependency:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: request the workflow execution
+      run: |
+        gh workflow run --repo JeanBarriere/gh-action-dependency update_dependency.yml -f dependency_repo=JeanBarriere/gh-action-build-and-release

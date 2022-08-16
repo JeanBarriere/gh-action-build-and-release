@@ -48,7 +48,8 @@ jobs:
 
   notify-dependency:
     runs-on: ubuntu-latest
-    
+    needs: [change-version]
+
     steps:
     - name: request the workflow execution
       env:

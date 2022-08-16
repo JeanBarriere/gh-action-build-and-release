@@ -31,13 +31,13 @@ jobs:
     # Runs a single command using the runners shell
     - name: Major update
       if: ${{ github.event.inputs.type == 'Major' }}
-      run: sh ./upgrade.sh -M
+      run: ./upgrade.sh -M
     - name: Minor update
       if: ${{ github.event.inputs.type == 'Minor' }}
-      run: sh ./upgrade.sh -m
+      run: ./upgrade.sh -m
     - name: Patch update
       if: ${{ github.event.inputs.type == 'Patch' }}
-      run: sh ./upgrade.sh -p
+      run: ./upgrade.sh -p
     - name: Commit change
       run: |
         git config user.name "${GITHUB_ACTOR}"

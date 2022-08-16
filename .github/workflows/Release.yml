@@ -53,6 +53,6 @@ jobs:
     steps:
     - name: request the workflow execution
       env:
-        GH_TOKEN: ${{ github.token }}
+        GH_TOKEN: ${{ secrets.GH_PAT_TOKEN }}
       run: |
         gh workflow run --repo JeanBarriere/gh-action-dependency update_dependency.yml --field dependency_repo=JeanBarriere/gh-action-build-and-release --ref main

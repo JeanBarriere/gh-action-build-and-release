@@ -16,7 +16,7 @@ jobs:
       uses: thollander/actions-comment-pull-request@v1
       with:
         message: 'Commenting...'
-        pr_number: github.event.issue.number
+        pr_number: ${{ github.event.issue.number }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   update-comment:
     needs: comment
@@ -28,5 +28,5 @@ jobs:
       with:
         comment_includes: 'Commenting'
         message: ':rocket: Commented'
-        pr_number: github.event.issue.number
+        pr_number: ${{ github.event.issue.number }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

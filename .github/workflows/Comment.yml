@@ -1,0 +1,30 @@
+name: Pull Request Comment
+
+on:
+  issue_comment:
+    types:
+      - created
+
+permissions: write-all
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    if: github.event.issue.pull_request && contains(github.event.comment.body, '/answer me')
+    steps:
+    - name: Comment PR
+      uses: thollander/actions-comment-pull-request@v1
+      with:
+        message: 'Commenting...'
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  update-comment:
+    needs: comment
+    runs-on: ubuntu-latest
+    if: github.event.issue.pull_request && contains(github.event.comment.body, '/answer me')
+    steps:
+    - name: Update comment PR
+      uses: thollander/actions-comment-pull-request@v1
+      with:
+        comment_includes: 'Commenting'
+        message: ':rocket: Commented'
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

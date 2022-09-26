@@ -12,16 +12,16 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.issue.pull_request && contains(github.event.comment.body, '/answer me')
     outputs:
-      branch: ${{ steps.extract_branch.outputs.branch }}
+      branch: ${{ steps.extract_branch.env.BRANCH }}
     steps:
     - name: Extract branch name
-      run: >
-        echo '::set-output name=branch::${${{ github.ref_name }}//\//-}'
+      run: |
+        echo "BRANCH=$(echo ${{ github.ref_name }} | sed -r 's,/,-,g')" >> $GITHUB_ENV
       id: extract_branch
     - name: Comment PR
       uses: thollander/actions-comment-pull-request@v1
       with:
-        message: 'Commenting... on ${{ steps.extract_branch.outputs.branch }}'
+        message: 'Commenting... on ${{ env.BRANCH }}'
         pr_number: ${{ github.event.issue.number }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   update-comment:

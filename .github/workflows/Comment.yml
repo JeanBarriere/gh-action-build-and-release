@@ -11,15 +11,17 @@ jobs:
   comment:
     runs-on: ubuntu-latest
     if: github.event.issue.pull_request && contains(github.event.comment.body, '/answer me')
+    outputs:
+      branch: ${{ steps.extract_branch.outputs.branch }}
     steps:
     - name: Extract branch name
       run: >
-        echo IMAGE_BRANCH_TAG=${${{ github.ref_name }}//\//-} >> $GITHUB_ENV  
+        echo '::set-output name=branch::${${{ github.ref_name }}//\//-}'
       id: extract_branch
     - name: Comment PR
       uses: thollander/actions-comment-pull-request@v1
       with:
-        message: 'Commenting... on ${{ env.IMAGE_BRANCH_TAG }}'
+        message: 'Commenting... on ${{ steps.extract_branch.outputs.branch }}'
         pr_number: ${{ github.event.issue.number }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   update-comment:
@@ -31,6 +33,6 @@ jobs:
       uses: thollander/actions-comment-pull-request@v1
       with:
         comment_includes: 'Commenting'
-        message: ':rocket: Commented on ${{ env.IMAGE_BRANCH_TAG }}'
+        message: ':rocket: Commented on ${{ needs.comment.outputs.branch }}'
         pr_number: ${{ github.event.issue.number }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

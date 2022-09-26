@@ -14,8 +14,10 @@ jobs:
     steps:
     - name: Comment PR
       uses: thollander/actions-comment-pull-request@v1
+      env:
+        branch: ${${{ github.ref_name }}//\//-}
       with:
-        message: 'Commenting...'
+        message: 'Commenting... on ${branch}'
         pr_number: ${{ github.event.issue.number }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   update-comment:

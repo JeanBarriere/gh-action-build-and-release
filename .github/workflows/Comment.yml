@@ -22,7 +22,7 @@ jobs:
     - name: check if PR exists
       id: check-pr
       run: |
-        PR_EXISTS=$(gh pr list --head ${{ env.branch }} --state open | wc -l | tr -d ' ')
+        PR_EXISTS=$(gh pr list --head ${{ env.branch }} --repo ${{ github.repository }} --state open | wc -l | tr -d ' ')
         echo ::set-output name=exists::$(if [ $PR_EXISTS -eq 0 ]; then; echo false; else; echo true; fi)
       env:
         branch: chore/unknown

@@ -29,7 +29,7 @@ jobs:
           echo ::set-output name=exists::true
         fi
       env:
-        branch: chore/unknown
+        branch: chore/test
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: exec if not exist

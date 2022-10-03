@@ -17,9 +17,6 @@ jobs:
     - name: Extract branch name
       run: |
         echo "BRANCH=$(echo ${{ github.ref_name }} | sed -r 's,/,-,g')" >> $GITHUB_ENV
-        echo ${{ secrets }}
-        echo ${{ secrets }} >> $GITHUB_ENV
-        env
       id: extract_branch
 
     - name: check if PR exists

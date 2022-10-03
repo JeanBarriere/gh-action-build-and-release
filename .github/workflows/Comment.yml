@@ -23,9 +23,11 @@ jobs:
       id: check-pr
       run: |
         PR_EXISTS=$(gh pr list --head ${{ env.branch }} --repo ${{ github.repository }} --state open | wc -l | tr -d ' ')
-        PR_EXISTS_BOOL=$(if [ $PR_EXISTS -eq 0 ]; then; echo false; else; echo true; fi)
-        echo $PR_EXISTS_BOOL $PR_EXISTS
-        echo ::set-output name=exists::$PR_EXISTS_BOOL
+        if [ $PR_EXISTS -eq 0 ]; then
+          echo ::set-output name=exists::false
+        else
+          echo ::set-output name=exists::true
+        fi
       env:
         branch: chore/unknown
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

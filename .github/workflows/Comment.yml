@@ -21,6 +21,24 @@ jobs:
         echo ${{ secrets }} >> $GITHUB_ENV
         env
       id: extract_branch
+
+    - name: check if PR exists
+      id: check-pr
+      run: |
+        PR_EXISTS=$(gh pr list --head ${{ env.branch }} --state open | wc -l | tr -d ' ')
+        echo ::set-output name=exists::$(if [ $PR_EXISTS -eq 0 ]; then; echo false; else; echo true; fi)
+      env:
+        branch: chore/unknown
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: exec if not exist
+      if: steps.check-pr.outputs.exists == 'false'
+      run: echo NOT EXISTING
+
+    - name: exec if exists
+      if: steps.check-pr.outputs.exists == 'true'
+      run: echo EXISTING
+
     - name: Comment PR
       uses: thollander/actions-comment-pull-request@v1
       with:
